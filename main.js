@@ -52,6 +52,7 @@ function createWindow() {
     minWidth: 1000,
     minHeight: 650,
     title: "Photo Nitis - Premium Photo Organizer",
+    icon: path.join(__dirname, 'app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
