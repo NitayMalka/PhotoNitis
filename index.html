@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO & Title -->
+  <title>Photo Nitis - Premium Photo Organizer</title>
+  <meta name="description" content="Organize your photos easily and smoothly with simple keyboard controls, zoom, and undo.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    
+    <!-- MAIN WORKSPACE AREA -->
+    <main class="main-workspace">
+      
+      <!-- Top Navigation Header -->
+      <header class="app-header">
+        <div class="header-logo">
+          <div class="logo-icon"></div>
+          <h1>Photo Nitis</h1>
+        </div>
+        
+        <div class="folder-selector-wrapper">
+          <button id="btn-select-folder" class="btn btn-primary" title="Open Folder (Ctrl+O)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Choose Folder</span>
+          </button>
+          <div id="display-folder-path" class="folder-path-text" title="No folder selected">No folder selected</div>
+        </div>
+
+        <div class="header-actions">
+          <button id="btn-undo" class="btn btn-secondary btn-icon" title="Undo Last Move (Ctrl+Z)" disabled>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7v6h6"></path>
+              <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+            </svg>
+            <span>Undo</span>
+          </button>
+          
+          <button id="btn-settings" class="btn btn-secondary btn-icon" title="Configure Folders">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Photo Display Workspace -->
+      <section class="photo-viewer-container">
+        
+        <!-- Viewer Active State -->
+        <div id="viewer-active" class="viewer-content hidden">
+          <!-- Image Viewport with pan and zoom capabilities -->
+          <div id="photo-viewport" class="photo-viewport">
+            <img id="display-photo" src="" alt="Main Display" draggable="false">
+          </div>
+
+          <!-- Bottom HUD Details (Glassmorphic panel overlay) -->
+          <div class="viewer-hud">
+            <div class="hud-file-details">
+              <span id="hud-filename" class="hud-filename">photo_001.jpg</span>
+              <span id="hud-resolution" class="hud-meta">1920 x 1080</span>
+              <span id="hud-filesize" class="hud-meta">1.4 MB</span>
+            </div>
+            
+            <div class="hud-zoom-controls">
+              <button id="btn-zoom-out" class="btn btn-hud" title="Zoom Out (Ctrl+Minus)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <span id="zoom-indicator" class="zoom-level">100%</span>
+              <button id="btn-zoom-in" class="btn btn-hud" title="Zoom In (Ctrl+Plus)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <button id="btn-zoom-reset" class="btn btn-hud" title="Reset Zoom (Ctrl+0)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6"></path>
+                  <path d="M9 21H3v-6"></path>
+                  <path d="M21 3l-7 7"></path>
+                  <path d="M3 21l7-7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="viewer-empty" class="viewer-empty-state">
+          <div class="empty-state-card">
+            <div class="empty-icon-wrapper">
+              <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <h2>Organize Your Photos in Snap</h2>
+            <p>Select a folder to begin. You'll be able to quickly classify photos using your arrow keys, zoom in/out, and easily undo mistakes.</p>
+            <button id="btn-empty-select-folder" class="btn btn-primary btn-large">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>Choose Folder</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- RIGHT SIDEBAR (STATS, PREVIEW QUEUE, SHORTCUTS) -->
+    <aside class="sidebar-right">
+      
+      <!-- Stats Panel -->
+      <section class="sidebar-card card-stats">
+        <h3>Directory Progress</h3>
+        <div class="progress-container">
+          <div class="progress-stats">
+            <div class="stat-item">
+              <span class="stat-label">Total Photos</span>
+              <span id="stat-total" class="stat-val">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Organized</span>
+              <span id="stat-organized" class="stat-val">0</span>
+            </div>
+          </div>
+          <div class="progress-bar-wrapper">
+            <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-percentage-label">
+            <span id="progress-percent">0% complete</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Queue Preview (Next 5 Photos) -->
+      <section class="sidebar-card card-queue">
+        <h3>Next up</h3>
+        <div id="queue-container" class="queue-list">
+          <!-- Populated by JavaScript -->
+          <div class="queue-empty-message">No upcoming photos</div>
+        </div>
+      </section>
+
+      <!-- Shortcuts / Legend Panel -->
+      <section class="sidebar-card card-legend">
+        <h3>Organizing Keys</h3>
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="key-badge">←</span>
+            <div class="legend-details">
+              <span class="legend-dir-name" id="legend-dir-left">Delete</span>
+              <span class="legend-sub">Move to Left Folder</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="key-badge">↑</span>
+            <div class="legend-details">
+              <span class="legend-dir-name" id="legend-dir-up">Not Sure</span>
+              <span class="legend-sub">Move to Up Folder</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="key-badge">→</span>
+            <div class="legend-details">
+              <span class="legend-dir-name" id="legend-dir-right">Save</span>
+              <span class="legend-sub">Move to Right Folder</span>
+            </div>
+          </div>
+          <div class="legend-divider"></div>
+          <div class="legend-item text-secondary">
+            <span class="key-badge text-small">Ctrl + Z</span>
+            <div class="legend-details">
+              <span class="legend-dir-name text-small">Undo</span>
+              <span class="legend-sub">Cancel last move</span>
+            </div>
+          </div>
+          <div class="legend-item text-secondary">
+            <span class="key-badge text-small">Scroll / Drag</span>
+            <div class="legend-details">
+              <span class="legend-dir-name text-small">Zoom & Pan</span>
+              <span class="legend-sub">Inspect photo closely</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <header class="modal-header">
+          <h2>Folder Configuration</h2>
+          <button id="btn-close-settings" class="btn-close">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </header>
+        <section class="modal-body">
+          <p class="modal-intro">Define the custom subfolders inside your active directory where photos will be categorized.</p>
+          
+          <div class="form-group">
+            <label for="input-folder-left">
+              <span class="key-indicator">←</span> Left Arrow Destination Folder:
+            </label>
+            <input type="text" id="input-folder-left" class="form-control" placeholder="delete" value="delete">
+          </div>
+          
+          <div class="form-group">
+            <label for="input-folder-up">
+              <span class="key-indicator">↑</span> Up Arrow Destination Folder:
+            </label>
+            <input type="text" id="input-folder-up" class="form-control" placeholder="not sure" value="not sure">
+          </div>
+          
+          <div class="form-group">
+            <label for="input-folder-right">
+              <span class="key-indicator">→</span> Right Arrow Destination Folder:
+            </label>
+            <input type="text" id="input-folder-right" class="form-control" placeholder="save" value="save">
+          </div>
+        </section>
+        <footer class="modal-footer">
+          <button id="btn-cancel-settings" class="btn btn-secondary">Cancel</button>
+          <button id="btn-save-settings" class="btn btn-primary">Save Changes</button>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="renderer.js"></script>
+</body>
+</html>

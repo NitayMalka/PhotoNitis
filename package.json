@@ -1,0 +1,21 @@
+{
+  "name": "photo-nitis",
+  "version": "1.0.0",
+  "description": "Premium Photo Organizer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pretest": "node create-dummies.js",
+    "test": "electron . --test"
+  },
+  "keywords": [
+    "photo",
+    "organizer"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^31.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# Generated test photos
+test-photos/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
